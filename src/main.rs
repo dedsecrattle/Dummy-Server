@@ -10,7 +10,7 @@ use tokio::net::TcpListener;
 #[tokio::main]
 async fn main() {
     // Load your JSON once when the server starts
-    let file_content = fs::read_to_string("data/variants.json")
+    let file_content = fs::read_to_string("/data/variants.json")
         .expect("Failed to read JSON file");
 
     let parsed_json: Value = serde_json::from_str(&file_content)
@@ -31,7 +31,9 @@ async fn main() {
         }),
     );
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], 9090));
+    let port = std::env::var("PORT").unwrap_or_else(|_| "9090".to_string());
+    let addr = SocketAddr::from(([0, 0, 0, 0], port.parse().unwrap()));
+
     println!("Listening on http://{}", addr);
     
     let listener = TcpListener::bind(&addr).await.unwrap();
