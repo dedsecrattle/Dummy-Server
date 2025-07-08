@@ -10,7 +10,7 @@ use tokio::net::TcpListener;
 #[tokio::main]
 async fn main() {
     // Load your JSON once when the server starts
-    let file_content = fs::read_to_string("/data/variants.json")
+    let file_content = fs::read_to_string("./data/variants.json")
         .expect("Failed to read JSON file");
 
     let parsed_json: Value = serde_json::from_str(&file_content)
